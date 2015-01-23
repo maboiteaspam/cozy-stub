@@ -1,5 +1,5 @@
 module.exports = {
-  stub : function(cozyHandler, options){
+  stub: function(cozyHandler, options){
     if (!options.hostname) {
       options.hostname = 'localhost';
     }
@@ -12,12 +12,17 @@ module.exports = {
         return ++basePort;
       };
     }
-    cozyHandler.start(options, function(err, app, server){
+    cozyHandler.start(options, function(appErr, app, server){
+      if (appErr) {
+        console.error(appErr.stack);
+      }
       console.log('http://' + options.hostname + ':' + options.port + '/');
       console.log('ready!');
 
       var done = function(){
+        /*eslint-disable */
         process.exit();
+        /*eslint-enable */
       };
 
       process.on('uncaughtException', function(err){
